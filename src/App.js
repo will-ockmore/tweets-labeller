@@ -13,7 +13,7 @@ export class App extends React.Component {
     return (
       <Provider store={store}>
         <div>
-
+          hi
         </div>
       </Provider>
     );
@@ -22,7 +22,6 @@ export class App extends React.Component {
 
 App.propTypes = {
   store: React.PropTypes.object.isRequired,
-  socket: React.PropTypes.object.isRequired
 };
 
 export default App;

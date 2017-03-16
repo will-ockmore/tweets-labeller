@@ -1,20 +1,19 @@
 /* eslint-disable no-var, vars-on-top, prefer-template, no-plusplus, no-underscore-dangle */
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 var express = require('express');
+const mongoose = require('mongoose');
 
 var paths = require('../config/paths.js');
-
-var Tweet = require('./models/tweet.js');
-
 var LOG_PREFIX = 'express backend';
 var logger = require('../scripts/logger.js').createLogger(LOG_PREFIX);
 var errorLogger = require('../scripts/logger.js').catchErr;
 
+var api = require('./routes/api.js');
+
+
 var app = express();
 var http = require('http').Server(app);
-
 
 // bodyParser middleware for request data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,8 +26,13 @@ app.use(express.static(paths.buildDir));
 mongoose.connect(process.env.MONGO_URL);
 var db = mongoose.connection;
 
-// return the app on all routes
-app.get('*', (req, res) => {
+app.set('db', db);
+
+// api
+app.use('/api', api)
+
+// return the app on index route
+app.get('/', (req, res) => {
   res.sendFile(paths.buildIndexHtml);
 });
 

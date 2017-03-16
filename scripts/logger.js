@@ -3,6 +3,11 @@ var chalk = require('chalk');
 
 
 function createLogger(prefix) {
+
+  if(process.env.NODE_ENV === 'production') {
+    return console.log
+  }
+
   var LOG_PREFIX = chalk.blue.bold(`[${prefix}]`) + ':';
   return function logger(message) {
     if (message) {

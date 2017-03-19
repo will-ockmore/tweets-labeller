@@ -11,7 +11,8 @@ function getDb(req) {
 
 router.get('/', (req, res) => {
   var tweet = Tweet.aggregate(
-    { $sample: { size: 20 } },
+    { $sample: { size: 5 } },
+    { $match: { sentiment_label: { $exists: false } } },
     (err, tweets) => {
       if (err) {
         res.send(err)

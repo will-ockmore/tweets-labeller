@@ -40,6 +40,12 @@ module.exports = {
         loader: 'babel',
       },
 
+      // file loader - for bootstrap
+      {
+        test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+        loader: 'file',
+      },
+
       // sass compilation - see also the plugin further below
       {
         test: /\.scss$/,

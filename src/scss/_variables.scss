@@ -1,28 +1,3 @@
-/* @group colors */
-
-$brand-primary: #77C9BD;
-$brand-secondary: #E86434;
-$brand-light: #FBF6E0;
-$brand-dark: #487D77;
-$brand-accent: #F8DA3D;
-
-$darker-bg: darken($brand-primary, 10%);
-
-$grey: #2B2B2B;
-
-/* @end colors */
-
-
-/* @group layout */
-
-$sm: 480px;
-$md: 768px;
-$lg: 920px;
-$xl: 1100px;
-$xxl: 1200px;
-
-/* @end layout */
-
 
 /* @group padding */
 
@@ -36,7 +11,7 @@ $base-padding: 10px;
 $base-font-size: 16px;
 $small-font-size: 14px;
 $x-small-font-size: 12px;
-$header-font: 'Oswald', sans-serif;
+$header-font: 'Helvetica', sans-serif;
 $base-font: 'Roboto Slab', serif;
 
 $font-light: 300;

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import TweetContainer from './containers/TweetContainer';
 
-require('../scss/app.scss');
+require('../scss/main.scss');
 
 
 export class App extends React.Component {

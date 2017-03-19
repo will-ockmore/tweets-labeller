@@ -27,7 +27,11 @@ export class TweetContainer extends React.PureComponent {
       return <div>Loading...</div>;
     }
 
-    return <h1>{currentTweet.get('text')}</h1>;
+    return (
+      <div>
+        <h1>{currentTweet.get('text')}</h1>
+      </div>
+    );
   }
 }
 

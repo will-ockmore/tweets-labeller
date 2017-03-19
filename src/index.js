@@ -2,15 +2,11 @@
 /* eslint-env browser */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import store from './store';
 
-import rootReducer from './reducers/reducers';
-
-
-const store = createStore(rootReducer);
 
 const render = () => {
-  const App = require('./App').default;
+  const App = require('./components/App').default;
 
   ReactDOM.render(
     <App
@@ -22,7 +18,7 @@ const render = () => {
 
 if (module.hot) {
   // Support hot reloading of components
-  module.hot.accept('./App', () => {
+  module.hot.accept('./components/App', () => {
     render();
   });
 }

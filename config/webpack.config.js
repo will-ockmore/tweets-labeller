@@ -14,7 +14,7 @@ module.exports = {
     'webpack/hot/dev-server',
   ],
 
-  devtool: 'eval',
+  devtool: 'sourcemap',
 
   output: {
     path: paths.buildDir,

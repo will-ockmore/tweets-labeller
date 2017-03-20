@@ -24,3 +24,26 @@ export function getTweets() {
       .catch(err => dispatch({ type: GET_TWEETS.FAILURE, payload: err }));
   };
 }
+
+export const POST_TWEET = makeAsyncActionSet('POST_TWEET');
+
+export function updateTweet(id, label) {
+  return dispatch => {
+    dispatch({ type: POST_TWEET.REQUEST });
+
+    const requestParams = {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: { sentiment_label: label },
+    };
+
+
+    fetch(API_URL + id, requestParams)
+      .then(response => response.json())
+      .then(json => dispatch({ type: POST_TWEET.SUCCESS, payload: fromJS(json) }))
+      .catch(err => dispatch({ type: POST_TWEET.FAILURE, payload: err }));
+  };
+}

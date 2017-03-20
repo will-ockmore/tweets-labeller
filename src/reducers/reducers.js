@@ -26,6 +26,11 @@ export function tweets(state = initialTweetState, action) {
         .set('response', FAILED)
         .updateIn(['errors'], errors => errors.push(...action.payload));
 
+    case actions.POST_TWEET.SUCCESS:
+      console.log(action.payload.toJS());
+      // successfully updated the currentTweet (head of the list)
+      return state.shift();
+
     default:
       return state;
   }

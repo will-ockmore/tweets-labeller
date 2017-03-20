@@ -1,30 +1,53 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-var Tweet = require('../models/tweet.js');
+const Tweet = require('../models/tweet.js');
 
 
-function getDb(req) {
-  return req.app.get('db');
-}
-
+const router = express.Router();
 
 router.get('/', (req, res) => {
-  var tweet = Tweet.aggregate(
+  Tweet.aggregate(
     { $sample: { size: 5 } },
     { $match: { sentiment_label: { $exists: false } } },
     (err, tweets) => {
       if (err) {
-        res.send(err)
+        res.send(err);
       }
 
       res.json(tweets);
     }
-  )
+  );
 });
 
-router.post('/', (req, res) => {
-    res.send('POST handler for api.');
-});
+router.route('/:id')
+  .get((req, res) => {
+    Tweet.findById(req.params.id, (err, tweet) => {
+      if (err) {
+        res.send(err);
+      }
+
+      res.json(tweet);
+    });
+  })
+
+  .post((req, res) => {
+    Tweet.findById(req.params.id, (err, tweet) => {
+      if (err) {
+        res.send(err);
+      }
+
+      tweet.sentiment_label = req.body.sentiment_label;
+
+      tweet.save(error => {
+        if (error) {
+          res.send(error);
+        }
+
+        console.log(req.body);
+
+        res.json({ message: 'Tweet updated!', data: tweet });
+      });
+    });
+  });
 
 module.exports = router;

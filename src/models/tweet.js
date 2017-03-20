@@ -6,6 +6,7 @@ const TweetSchema = new Schema({
   created_at: Date,
   id_str: String,
   text: String,
+  sentiment_label: String,
   truncated: Boolean,
   user: {
     id_str: String,

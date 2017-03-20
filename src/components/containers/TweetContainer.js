@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Map, List } from 'immutable';
+import Linkify from 'react-linkify';
 
-import { PENDING } from '../../constants/responseStates';
-import { getTweets } from '../../actions/actions';
+import { PENDING, SUCCESSFUL } from '../../constants/responseStates';
+import { FOR, AGAINST, UNKNOWN } from '../../constants/sentimentLabels';
+import { getTweets, updateTweet } from '../../actions/actions';
 
 
 export class TweetContainer extends React.PureComponent {
@@ -13,23 +15,44 @@ export class TweetContainer extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const { tweets } = this.props;
+    const { tweets, response } = this.props;
 
-    if (tweets.size < 5) {
+    if (tweets.size < 5 && !(response === PENDING)) {
       this.props.getTweets();
     }
   }
 
   render() {
-    const { currentTweet, response } = this.props;
-
-    if (!response || response === PENDING) {
-      return <div>Loading...</div>;
-    }
+    const { currentTweet, response, update } = this.props;
 
     return (
       <div>
-        <h1>{currentTweet.get('text')}</h1>
+        <div>{(!response || response === PENDING) && 'Loading...'}</div>
+        <h1 className="text-center tweet-display">
+          <Linkify>{currentTweet && currentTweet.get('text')}</Linkify>
+        </h1>
+        {response === SUCCESSFUL &&
+          <div>
+            <button
+              className="btn btn-primary btn-lg center-block sentiment-btn"
+              onClick={() => update(currentTweet.get('_id'), FOR)}
+            >
+              For Trump
+            </button>
+            <button
+              className="btn btn-primary btn-lg center-block sentiment-btn"
+              onClick={() => update(currentTweet.get('_id'), AGAINST)}
+            >
+              Against Trump
+            </button>
+            <button
+              className="btn btn-primary btn-lg center-block sentiment-btn"
+              onClick={() => update(currentTweet.get('_id'), UNKNOWN)}
+            >
+              Unknown
+            </button>
+          </div>
+        }
       </div>
     );
   }
@@ -39,11 +62,11 @@ TweetContainer.propTypes = {
   tweets: React.PropTypes.instanceOf(List),
   currentTweet: React.PropTypes.instanceOf(Map),
   getTweets: React.PropTypes.func,
+  update: React.PropTypes.func,
   response: React.PropTypes.string,
 };
 
 export function mapStateToProps(state) {
-  // console.log(state.tweets.get('results').toJS());
   return {
     tweets: state.tweets.get('results'),
     currentTweet: state.tweets.get('results').first() || Map(),
@@ -51,4 +74,10 @@ export function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { getTweets })(TweetContainer);
+export default connect(
+  mapStateToProps,
+  {
+    getTweets,
+    update: updateTweet,
+  }
+)(TweetContainer);

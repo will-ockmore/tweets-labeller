@@ -1,6 +1,8 @@
 html, body {
   height: 100%;
   margin: 0;
+  background: $base-colour;
+  color: $secondary-colour;
   padding: 0;
 }
 
@@ -21,6 +23,14 @@ strong {
   margin: $base-padding / 2 0;
 }
 
+.tweet-display {
+  margin-top: 100px;
+  font-size: $base-font-size * 3;
+}
+
+.sentiment-btn {
+  margin-top: 25px;
+}
 /* @end elements */
 
 

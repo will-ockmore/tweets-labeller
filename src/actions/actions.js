@@ -33,11 +33,10 @@ export function updateTweet(id, label) {
 
     const requestParams = {
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: { sentiment_label: label },
+      body: JSON.stringify({ sentiment_label: label }),
     };
 
 

@@ -43,8 +43,6 @@ router.route('/:id')
           res.send(error);
         }
 
-        console.log(req.body);
-
         res.json({ message: 'Tweet updated!', data: tweet });
       });
     });

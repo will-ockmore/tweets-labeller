@@ -5,9 +5,9 @@ var express = require('express');
 const mongoose = require('mongoose');
 
 var paths = require('../config/paths.js');
+
 var LOG_PREFIX = 'express backend';
 var logger = require('../scripts/logger.js').createLogger(LOG_PREFIX);
-var errorLogger = require('../scripts/logger.js').catchErr;
 
 var api = require('./routes/api.js');
 
@@ -29,14 +29,17 @@ var db = mongoose.connection;
 app.set('db', db);
 
 // api
-app.use('/api', api)
+app.use('/api', api);
 
 // return the app on index route
 app.get('/', (req, res) => {
   res.sendFile(paths.buildIndexHtml);
 });
 
-http.listen(paths.nodeServerPort, () => logger(chalk.cyan('Listening on port ') + chalk.yellow.bold(paths.nodeServerPort)));
+http.listen(
+  paths.nodeServerPort,
+  () => logger(chalk.cyan('Listening on port ') + chalk.yellow.bold(paths.nodeServerPort))
+);
 
 process.on('SIGINT', () => {
   db.close(() => {

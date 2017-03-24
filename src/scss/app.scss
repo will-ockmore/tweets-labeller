@@ -22,6 +22,9 @@ strong {
   line-height: 1em;
   margin: $base-padding / 2 0;
 }
+/* @end elements */
+
+/* @group tweetsContainer */
 
 .tweet-display {
   margin-top: 100px;
@@ -31,6 +34,24 @@ strong {
 .sentiment-btn {
   margin-top: 25px;
 }
-/* @end elements */
+
+.tweets-container {
+  padding: 10px;
+}
+
+.tweet-buttons {
+  display: flex;
+  justify-content: center;
+
+  > :first-child {
+    margin-right: 5px;
+  }
+
+  > :last-child {
+    margin-left: 5px;
+  }
+}
+
+/* @end tweetsContainer */
 
 

@@ -19,18 +19,26 @@ export function tweets(state = initialTweetState, action) {
     case actions.GET_TWEETS.SUCCESS:
       return state
         .set('response', SUCCESSFUL)
-        .updateIn(['results'], tweetsList => tweetsList.push(...action.payload));
+        .update('results', tweetsList => tweetsList.push(...action.payload));
 
     case actions.GET_TWEETS.FAILURE:
       return state
         .set('response', FAILED)
-        .updateIn(['errors'], errors => errors.push(...action.payload));
+        .update('errors', errors => errors.push(...action.payload));
 
     case actions.POST_TWEET.SUCCESS:
-      console.log(action.payload.toJS());
       // successfully updated the currentTweet (head of the list)
-      return state.shift();
+      return state.update('results', results => results.shift());
 
+    default:
+      return state;
+  }
+}
+
+export function processedCount(state = 0, action) {
+  switch (action.type) {
+    case actions.POST_TWEET.SUCCESS:
+      return state + 1;
     default:
       return state;
   }
@@ -38,6 +46,7 @@ export function tweets(state = initialTweetState, action) {
 
 const rootReducer = combineReducers({
   tweets,
+  processedCount,
 });
 
 export default rootReducer;

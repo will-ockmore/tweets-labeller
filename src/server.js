@@ -1,4 +1,4 @@
-/* eslint-disable no-var, vars-on-top, prefer-template, no-plusplus, no-underscore-dangle */
+/* eslint-disable no-var, no-console, vars-on-top, prefer-template, no-plusplus, no-underscore-dangle */
 var chalk = require('chalk');
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -20,16 +20,17 @@ app.use(bodyParser.json());
 app.use(express.static(paths.buildDir));
 
 // mongodb connection uri
-mongoose.connect(process.env.MONGO_URL, { server: { auto_reconnect: true } });
+mongoose.connect(process.env.MONGO_URL);
 var db = mongoose.connection;
+
+function onClose() {
+  console.log('mongoose connection closed.');
+  process.exit(0);
+}
 
 db.on('error', err => {
   errorLogger(err);
-  mongoose.disconnect();
-});
-
-db.on('disconnected', () => {
-  mongoose.connect(process.env.MONGO_URL, { server: { auto_reconnect: true } });
+  db.close(onClose);
 });
 
 // api
@@ -46,9 +47,6 @@ http.listen(
 );
 
 process.on('SIGINT', () => {
-  db.close(() => {
-    console.log('mongoose connection closed.');
-    process.exit(0);
-  });
+  db.close(onClose);
 });
 

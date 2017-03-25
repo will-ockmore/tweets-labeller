@@ -8,7 +8,6 @@ var catchErr = require('./logger').catchErr;
 var runBackend = require('./startBackend.js');
 var runDevServer = require('./startDevServer.js');
 
-
 runBackend()
   .catch(catchErr);
 

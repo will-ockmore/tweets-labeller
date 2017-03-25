@@ -61,30 +61,29 @@ export class TweetContainer extends React.PureComponent {
 
     return (
       <div className="tweets-container">
-        <input className="hidden" id="keyboard" onKeyDown={e => this.onKeyDown(e)} />
 
         <span>{(!response || response === PENDING) ? 'Loading...' : 'Ready for labelling'}</span>
         <span className="pull-right">Tweets processed: {processedCount}</span>
 
-        <h1 className="text-center tweet-display">
+        <h3 className="text-center tweet-display">
           <Linkify>{currentTweet && currentTweet.get('text')}</Linkify>
-        </h1>
+        </h3>
 
         <div className="tweet-buttons">
           <button
-            className="btn btn-primary btn-lg sentiment-btn"
+            className="btn btn-primary sentiment-btn"
             onClick={() => update(tweetId, FOR)}
           >
             For Trump
           </button>
           <button
-            className="btn btn-primary btn-lg sentiment-btn"
+            className="btn btn-primary sentiment-btn"
             onClick={() => update(tweetId, AGAINST)}
           >
             Against Trump
           </button>
           <button
-            className="btn btn-primary btn-lg sentiment-btn"
+            className="btn btn-primary sentiment-btn"
             onClick={() => update(tweetId, UNKNOWN)}
           >
             Unknown

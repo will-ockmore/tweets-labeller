@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "start": "node scripts/start.js",
-    "start-prod": "node scripts/production.js",
+    "start-prod": "pm2 start scripts/production.js",
     "build": "node scripts/build.js",
     "test": "node scripts/tests.js"
   },
@@ -43,6 +43,7 @@
     "mongoose": "4.7.6",
     "node-sass": "4.2.0",
     "object-assign": "4.1.0",
+    "pm2": "^2.4.2",
     "postcss-loader": "1.2.1",
     "promise": "7.1.1",
     "react": "15.4.1",

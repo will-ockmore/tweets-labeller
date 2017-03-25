@@ -5,10 +5,7 @@ var express = require('express');
 const mongoose = require('mongoose');
 
 var paths = require('../config/paths.js');
-
-var LOG_PREFIX = 'express backend';
-var logger = require('../scripts/logger.js').createLogger(LOG_PREFIX);
-
+var errorLogger = require('../scripts/logger.js').catchErr;
 var api = require('./routes/api.js');
 
 
@@ -23,10 +20,17 @@ app.use(bodyParser.json());
 app.use(express.static(paths.buildDir));
 
 // mongodb connection uri
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL, { server: { auto_reconnect: true } });
 var db = mongoose.connection;
 
-app.set('db', db);
+db.on('error', err => {
+  errorLogger(err);
+  mongoose.disconnect();
+});
+
+db.on('disconnected', () => {
+  mongoose.connect(process.env.MONGO_URL, { server: { auto_reconnect: true } });
+});
 
 // api
 app.use('/api', api);
@@ -38,12 +42,12 @@ app.get('/', (req, res) => {
 
 http.listen(
   paths.nodeServerPort,
-  () => logger(chalk.cyan('Listening on port ') + chalk.yellow.bold(paths.nodeServerPort))
+  () => console.log(chalk.cyan('Listening on port ') + chalk.yellow.bold(paths.nodeServerPort))
 );
 
 process.on('SIGINT', () => {
   db.close(() => {
-    logger('mongoose connection closed.');
+    console.log('mongoose connection closed.');
     process.exit(0);
   });
 });

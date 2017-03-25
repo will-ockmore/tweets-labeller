@@ -118,6 +118,8 @@ function build(previousSizeMap) {
     console.log();
     printFileSizes(stats, previousSizeMap);
     console.log();
+
+    console.log(process.env.MONGO_URL);
   });
 }
 

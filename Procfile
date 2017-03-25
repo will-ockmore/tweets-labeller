@@ -1,1 +1,1 @@
-web: node scripts/production.js
+web: yarn run scripts/production.js

@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "npm run build",
     "start": "node scripts/start.js",
-    "start-prod": "pm2 start scripts/production.js",
+    "start-prod": "node scripts/startProduction.js",
     "build": "node scripts/build.js",
     "test": "node scripts/tests.js",
     "pm2": "pm2"
